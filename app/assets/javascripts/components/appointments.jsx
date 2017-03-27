@@ -22,7 +22,12 @@ var Appointments = React.createClass({
 
   addNewAppointment: function(appointment) {
     var appointments = React.addons.update(this.state.appointments, { $push: [appointment]});
-    this.setState({ appointments: appointments});
+    this.setState({ 
+      appointments: appointments.sort(function(a,b) {
+        return new Date(a.apt_time) - new Date(b.apt_time);
+
+      })
+    });
   },
   render: function() {
     return (
@@ -31,7 +36,7 @@ var Appointments = React.createClass({
           apt_time={this.state.apt_time}
           onUserInput={this.handleUserInput}
           onFormSubmit={this.handleFormSubmit} />
-        <AppointmentList appointments={this.props.appointments} />
+        <AppointmentList appointments={this.state.appointments} />
       </div>
     )
   }
